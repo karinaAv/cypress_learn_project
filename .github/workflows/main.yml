@@ -33,7 +33,6 @@ jobs:
         with:
             record: true
             parallel: true
-            group: 'Actions example'
             browser: chrome            
 
         env: 
