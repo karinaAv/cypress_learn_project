@@ -20,7 +20,12 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v6.6.1
         with:
             browser: chrome
+            record: true
+
+        env: 
+            # Get the short ref name of the branch that triggered the workflow run
+            COMMIT_INFO_BRANCH: ${{ github.ref_name }}
        
