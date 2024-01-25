@@ -61,7 +61,7 @@ context('Actions', () => {
       .find('[type="text"]').type('HALFOFF')
 
     cy.get('.action-form').submit()
-      .next().should('contain', 'Your form has been submitted!')
+      .next().should('contain', 'Your form has been submitted!kjh')
   })
 
   it('.click() - click on a DOM element', () => {
