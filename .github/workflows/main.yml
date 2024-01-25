@@ -1,7 +1,6 @@
 name: cypress_learn_project
 
-on: 
-    pull_request
+on: push
 
 jobs:
   cypress-run:
