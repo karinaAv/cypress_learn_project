@@ -7,8 +7,8 @@ env:
     # If the Actions secret EXAMPLE_PROJECT_ID is not defined then
     # the projectId is taken from cypress.json (v9) or cypress.config.js (v10 and later).
     # If the Actions secret EXAMPLE_RECORDING_KEY is not defined then recording jobs are skipped.
-    CYPRESS_PROJECT_ID: ${{ secrets.EXAMPLE_PROJECT_ID }}
-    CYPRESS_RECORD_KEY: ${{ secrets.EXAMPLE_RECORDING_KEY }}
+    CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+    CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORDING_KEY }}
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
