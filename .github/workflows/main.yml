@@ -14,6 +14,15 @@ env:
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
+    strategy:
+        # when one test fails, DO NOT cancel the other
+        # containers, because this will kill Cypress processes
+        # leaving Cypress Cloud hanging ...
+        # https://github.com/cypress-io/github-action/issues/48
+        fail-fast: false
+        matrix:
+          # run 3 copies of the current job in parallel
+          containers: [1, 2]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,8 +32,8 @@ jobs:
         uses: cypress-io/github-action@v6.6.1
         with:
             record: true
-            browser: chrome
-            
+            parallel: true
+            browser: chrome            
 
         env: 
             # Get the short ref name of the branch that triggered the workflow run
