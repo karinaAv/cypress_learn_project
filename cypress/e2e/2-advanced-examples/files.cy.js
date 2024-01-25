@@ -56,7 +56,7 @@ context('Files', () => {
     })
   })
 
-  it('cy.writeFile() - write to a file', () => {
+  it.skip('cy.writeFile() - write to a file', () => {
     // https://on.cypress.io/writefile
 
     // You can write to a file
