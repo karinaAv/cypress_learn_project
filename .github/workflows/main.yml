@@ -22,8 +22,9 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6.6.1
         with:
-            browser: chrome
             record: true
+            browser: chrome
+            
 
         env: 
             # Get the short ref name of the branch that triggered the workflow run
