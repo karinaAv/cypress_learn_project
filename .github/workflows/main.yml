@@ -21,6 +21,8 @@ jobs:
             record: true
             parallel: true # Runs test in parallel using settings above
         env:
+            # pass GitHub token to allow accurately detecting a build vs a re-run build
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             # pass the Cypress Cloud record key as an environment variable
             CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
             # pass the project ID from the secrets through environment variable
