@@ -1,18 +1,34 @@
 name: cypress_learn_project
 
-on: 
-    pull_request
+on: workflow_dispatch
+
+env:
+    # Set up the Cypress Cloud project ID and record key as environment variables
+    # If the Actions secret EXAMPLE_PROJECT_ID is not defined then
+    # the projectId is taken from cypress.json (v9) or cypress.config.js (v10 and later).
+    # If the Actions secret EXAMPLE_RECORDING_KEY is not defined then recording jobs are skipped.
+    GH_ENTERPRISE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
+    strategy:
+        # when one test fails, DO NOT cancel the other
+        # containers, because this will kill Cypress processes
+        # leaving Cypress Cloud hanging ...
+        # https://github.com/cypress-io/github-action/issues/48
+        fail-fast: false
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v6.6.1
         with:
-          build: npm run build
-          start: npm start
+            browser: chrome            
+
+        env: 
+            # Get the short ref name of the branch that triggered the workflow run
+            COMMIT_INFO_BRANCH: ${{ github.ref_name }}
+       
