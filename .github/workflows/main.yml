@@ -26,6 +26,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6.6.1
         with:
+            start: npx cypress run
             browser: chrome            
 
         env: 
