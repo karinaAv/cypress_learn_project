@@ -24,9 +24,9 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v6.6.1
+        uses: cypress-io/github-action@v6
         with:
-            start: npx cypress run
+            start: npm run test
             browser: chrome            
 
         env: 
