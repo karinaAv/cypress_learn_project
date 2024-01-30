@@ -8,8 +8,9 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
+    "@mmisty/cypress-allure-adapter": "^0.16.2",
+    "allure-commandline": "^2.26.0",
     "cypress": "^13.6.3"
   }
 }
