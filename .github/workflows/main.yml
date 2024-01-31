@@ -23,13 +23,14 @@ jobs:
           containers: [1, 2, 3, 4, 5]
     steps:          
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3         
+
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          command: npx cypress install & npx cypress run
+          command: npm i --force & npx cypress run
           browser: chrome            
         env: 
             # Get the short ref name of the branch that triggered the workflow run
