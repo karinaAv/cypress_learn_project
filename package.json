@@ -11,6 +11,7 @@
   "devDependencies": {
     "@mmisty/cypress-allure-adapter": "^0.16.2",
     "allure-commandline": "^2.26.0",
-    "cypress": "^13.6.3"
+    "cypress": "^13.6.3",
+    "cypress-split": "^1.19.0"
   }
 }
