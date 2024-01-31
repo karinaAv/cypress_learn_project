@@ -8,6 +8,7 @@ env:
     # the projectId is taken from cypress.json (v9) or cypress.config.js (v10 and later).
     # If the Actions secret EXAMPLE_RECORDING_KEY is not defined then recording jobs are skipped.
     GH_ENTERPRISE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    CYPRESS_INSTALL_BINARY: /home/runner/.cache/Cypress
 
 jobs:
   cypress-run:
@@ -28,7 +29,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          command: cypress install & npx cypress run
+          command: npx cypress install & npx cypress run
           browser: chrome            
         env: 
             # Get the short ref name of the branch that triggered the workflow run
