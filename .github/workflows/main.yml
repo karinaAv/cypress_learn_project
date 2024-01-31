@@ -30,7 +30,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          command: npm i --force & npx cypress run
+          command: npm install cypress & npx cypress run
           browser: chrome            
         env: 
             # Get the short ref name of the branch that triggered the workflow run
