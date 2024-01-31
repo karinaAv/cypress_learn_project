@@ -28,7 +28,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-            browser: chrome            
+          command: npx cypress cache list & npx cypress run
+          browser: chrome            
         env: 
             # Get the short ref name of the branch that triggered the workflow run
             COMMIT_INFO_BRANCH: ${{ github.ref_name }}
