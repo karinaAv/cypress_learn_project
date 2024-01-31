@@ -19,22 +19,8 @@ jobs:
         # https://github.com/cypress-io/github-action/issues/48
         fail-fast: false
         matrix:
-          containers: [1, 2, 3]
-    steps:
-      - name: Log runner details
-        run: |
-          Write-Host "=== General information ==="
-          systeminfo
-
-          Write-Host "=== Disks ==="
-          Get-PSDrive
-
-          Write-Host "=== Environment variables ==="
-          Write-Host "PATH: $env:PATH"
-
-          Write-Host "=== Current user ==="
-          whoami
-          
+          containers: [1, 2, 3, 4, 5]
+    steps:          
       - name: Checkout
         uses: actions/checkout@v3
       # Install NPM dependencies, cache them correctly
