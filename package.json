@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx cypress run"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
-    "cypress": "^13.6.3"
+    "@mmisty/cypress-allure-adapter": "^0.16.2",
+    "allure-commandline": "^2.26.0",
+    "cypress": "^13.6.3",
+    "cypress-split": "^1.19.0"
   }
 }

@@ -1,6 +1,6 @@
 name: cypress_learn_project
 
-on: workflow_dispatch
+on: push
 
 env:
     # Set up the Cypress Cloud project ID and record key as environment variables
@@ -11,24 +11,27 @@ env:
 
 jobs:
   cypress-run:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
         # when one test fails, DO NOT cancel the other
         # containers, because this will kill Cypress processes
         # leaving Cypress Cloud hanging ...
         # https://github.com/cypress-io/github-action/issues/48
         fail-fast: false
+        matrix:
+          containers: [1, 2, 3]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v6.6.1
+        uses: cypress-io/github-action@v6
         with:
-            browser: chrome            
-
+          command: npx cypress cache list & npx cypress run
+          browser: chrome            
         env: 
             # Get the short ref name of the branch that triggered the workflow run
             COMMIT_INFO_BRANCH: ${{ github.ref_name }}
-       
+            SPLIT: ${{ strategy.job-total }}
+            SPLIT_INDEX: ${{ strategy.job-index }}

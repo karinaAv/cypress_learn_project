@@ -1,4 +1,7 @@
 /node_modules
 /cypress/downloads
+/mochawesome-report
+/allure-results
+/cypress/videos
 
 /cypress/screenshots
