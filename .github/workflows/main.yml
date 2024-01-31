@@ -21,6 +21,20 @@ jobs:
         matrix:
           containers: [1, 2, 3]
     steps:
+      - name: Log runner details
+        run: |
+          Write-Host "=== General information ==="
+          systeminfo
+
+          Write-Host "=== Disks ==="
+          Get-PSDrive
+
+          Write-Host "=== Environment variables ==="
+          Write-Host "PATH: $env:PATH"
+
+          Write-Host "=== Current user ==="
+          whoami
+          
       - name: Checkout
         uses: actions/checkout@v3
       # Install NPM dependencies, cache them correctly
@@ -28,7 +42,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          command: npx cypress cache list & npx cypress run
+          command: cypress install & npx cypress run
           browser: chrome            
         env: 
             # Get the short ref name of the branch that triggered the workflow run
