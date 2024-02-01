@@ -22,51 +22,54 @@ jobs:
           containers: [1, 2, 3, 4, 5]
     steps:          
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
         # install a specific version of Node using
         # https://github.com/actions/setup-node
-      - name: Use Node.js 20
+      - name: Use Node.js 18
         uses: actions/setup-node@v4
         with:
           node-version: 18
-      # Restore the previous NPM modules and Cypress binary archives.
-    # In case there's no previous cache the packages will be downloaded
-    # and saved automatically after the entire workflow successfully finishes.
-    # See https://github.com/actions/cache
-      - name: Cache node modules
+          # Restore the previous NPM modules and Cypress binary archives.
+      # Any updated archives will be saved automatically after the entire
+      # workflow successfully finishes.
+      # See https://github.com/actions/cache
+      # we use exact restore key to avoid NPM module snowballing
+      # https://glebbahmutov.com/blog/do-not-let-npm-cache-snowball/
+      - name: Cache central NPM modules
         uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Cache Cypress binary
+          key: ${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+    
+      # Cache local node_modules to pass to testing jobs
+      - name: Cache local node_modules
         uses: actions/cache@v3
         with:
-          path: ~/.cache/Cypress
-          key: cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-${{ github.ref }}-
+
 
       - name: install dependencies and verify Cypress
         env:
           # make sure every Cypress install prints minimal information
           CI: 1
-          # print Cypress and OS info
         run: |
           npm ci
-            npx cypress verify
-            npx cypress info
-            npx cypress version
-            npx cypress version --component package
-            npx cypress version --component binary
-            npx cypress version --component electron
-            npx cypress version --component node         
+          npx cypress cache path
+          npx cypress cache list
+          npx cypress verify
+          npx cypress info     
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          command: npm install cypress & cypress run
           browser: chrome            
         env: 
             # Get the short ref name of the branch that triggered the workflow run
