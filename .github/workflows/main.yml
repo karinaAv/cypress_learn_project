@@ -8,6 +8,9 @@ env:
     # the projectId is taken from cypress.json (v9) or cypress.config.js (v10 and later).
     # If the Actions secret EXAMPLE_RECORDING_KEY is not defined then recording jobs are skipped.
     GH_ENTERPRISE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    NPM_CACHE_FOLDER: ~/.cache/npm    
+    CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+    CYPRESS_INSTALL_BINARY: ~/.cache/Cypress
 
 
 jobs:
@@ -81,8 +84,6 @@ jobs:
             COMMIT_INFO_BRANCH: ${{ github.ref_name }}
             SPLIT: ${{ strategy.job-total }}
             SPLIT_INDEX: ${{ strategy.job-index }}
-            CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
-            CYPRESS_INSTALL_BINARY: ~/.cache/Cypress
 
       # Save screenshots as test artifacts
       # https://github.com/actions/upload-artifact
