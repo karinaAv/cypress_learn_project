@@ -81,6 +81,7 @@ jobs:
             SPLIT: ${{ strategy.job-total }}
             SPLIT_INDEX: ${{ strategy.job-index }}
             CYPRESS_CACHE_FOLDER: ~/Cache/Cypress
+            CYPRESS_INSTALL_BINARY: ~/Cache/Cypress
 
       # Save screenshots as test artifacts
       # https://github.com/actions/upload-artifact
