@@ -22,15 +22,17 @@ jobs:
         matrix:
           containers: [1, 2, 3, 4, 5]
     steps:          
-      - name: Checkout
-        uses: actions/checkout@v4
-
         # install a specific version of Node using
         # https://github.com/actions/setup-node
       - name: Use Node.js 18
         uses: actions/setup-node@v4
         with:
           node-version: 18
+      
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install
+        run: npm install --force
       
       # Restore the previous NPM modules and Cypress binary archives.
       # Any updated archives will be saved automatically after the entire
