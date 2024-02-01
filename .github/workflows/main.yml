@@ -80,8 +80,8 @@ jobs:
             COMMIT_INFO_BRANCH: ${{ github.ref_name }}
             SPLIT: ${{ strategy.job-total }}
             SPLIT_INDEX: ${{ strategy.job-index }}
-            CYPRESS_CACHE_FOLDER: ~/Cache/Cypress
-            CYPRESS_INSTALL_BINARY: ~/Cache/Cypress
+            CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+            CYPRESS_INSTALL_BINARY: ~/.cache/Cypress
 
       # Save screenshots as test artifacts
       # https://github.com/actions/upload-artifact
