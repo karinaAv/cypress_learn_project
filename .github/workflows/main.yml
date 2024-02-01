@@ -9,8 +9,8 @@ env:
     # If the Actions secret EXAMPLE_RECORDING_KEY is not defined then recording jobs are skipped.
     GH_ENTERPRISE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     NPM_CACHE_FOLDER: ~/.cache/npm    
-    CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
-    CYPRESS_INSTALL_BINARY: ~/.cache/Cypress
+    CYPRESS_CACHE_FOLDER: /home/runner/.cache/Cypress
+    CYPRESS_INSTALL_BINARY: /home/runner/.cache/Cypress
 
 
 jobs:
@@ -46,19 +46,10 @@ jobs:
         with:
           path: |
             ~/.npm
-            ~/Cache/Cypress
+            ~/cache/Cypress
           key: ${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
-    
-      # Cache local node_modules to pass to testing jobs
-      - name: Cache local node_modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-${{ github.ref }}-
 
 
       - name: install dependencies and verify Cypress
@@ -77,7 +68,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          install: false
           browser: chrome            
         env: 
             # Get the short ref name of the branch that triggered the workflow run
