@@ -9,13 +9,12 @@ env:
     # If the Actions secret EXAMPLE_RECORDING_KEY is not defined then recording jobs are skipped.
     GH_ENTERPRISE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     NPM_CACHE_FOLDER: ~/.cache/npm    
-    CYPRESS_CACHE_FOLDER: /home/runner/.cache/Cypress
-    CYPRESS_INSTALL_BINARY: /home/runner/.cache/Cypress
+    CYPRESS_CACHE_FOLDER: /AppData/Local/Cypress/Cache
 
 
 jobs:
   cypress-run:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
         # when one test fails, DO NOT cancel the other
         # containers, because this will kill Cypress processes
@@ -45,8 +44,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            ~/.npm
-            ~/cache/Cypress
+            /AppData/npm-cache
+            /AppData/Local/Cypress/Cache
           key: ${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
