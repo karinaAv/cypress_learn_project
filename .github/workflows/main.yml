@@ -9,6 +9,7 @@ env:
     # If the Actions secret EXAMPLE_RECORDING_KEY is not defined then recording jobs are skipped.
     GH_ENTERPRISE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
@@ -30,7 +31,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          # Restore the previous NPM modules and Cypress binary archives.
+      
+      # Restore the previous NPM modules and Cypress binary archives.
       # Any updated archives will be saved automatically after the entire
       # workflow successfully finishes.
       # See https://github.com/actions/cache
@@ -39,7 +41,9 @@ jobs:
       - name: Cache central NPM modules
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: |
+            ~/.npm
+            ~/Cache/Cypress
           key: ${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
@@ -76,6 +80,7 @@ jobs:
             COMMIT_INFO_BRANCH: ${{ github.ref_name }}
             SPLIT: ${{ strategy.job-total }}
             SPLIT_INDEX: ${{ strategy.job-index }}
+            CYPRESS_CACHE_FOLDER: ~/Cache/Cypress
 
       # Save screenshots as test artifacts
       # https://github.com/actions/upload-artifact
