@@ -1,6 +1,6 @@
 name: cypress_learn_project
 
-on: push
+on: [push, workflow_dispatch]
 
 env:
     # Set up the Cypress Cloud project ID and record key as environment variables
@@ -19,16 +19,17 @@ jobs:
         # https://github.com/cypress-io/github-action/issues/48
         fail-fast: false
         matrix:
-          containers: [1, 2, 3]
-    steps:
+          containers: [1, 2, 3, 4, 5]
+    steps:          
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3         
+
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          command: npx cypress cache list & npx cypress run
+          command: npm install cypress & cypress run
           browser: chrome            
         env: 
             # Get the short ref name of the branch that triggered the workflow run
