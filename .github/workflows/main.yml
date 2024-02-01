@@ -9,7 +9,7 @@ env:
     # If the Actions secret EXAMPLE_RECORDING_KEY is not defined then recording jobs are skipped.
     GH_ENTERPRISE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     NPM_CACHE_FOLDER: C:\Users\runneradmin\AppData\npm-cache
-    CYPRESS_CACHE_FOLDER: C:\Users\runneradmin\AppData\Local\Cypress\Cache
+    CYPRESS_CACHE_FOLDER: C:\Users\runneradmin\AppData\Local\Cypress\Cache\13.6.3\Cypress
 
 
 jobs:
@@ -45,7 +45,7 @@ jobs:
         with:
           path: |
             C:\Users\runneradmin\AppData\npm-cache
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache\13.6.3\Cypress
           key: ${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
