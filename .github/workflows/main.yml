@@ -31,8 +31,6 @@ jobs:
       
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install
-        run: npm install --force
       
       # Restore the previous NPM modules and Cypress binary archives.
       # Any updated archives will be saved automatically after the entire
@@ -65,7 +63,7 @@ jobs:
           # make sure every Cypress install prints minimal information
           CI: 1
         run: |
-          npm ci
+          npm install --force
           npx cypress cache path
           npx cypress cache list
           npx cypress verify
