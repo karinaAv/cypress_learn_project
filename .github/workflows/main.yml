@@ -8,7 +8,7 @@ env:
     # the projectId is taken from cypress.json (v9) or cypress.config.js (v10 and later).
     # If the Actions secret EXAMPLE_RECORDING_KEY is not defined then recording jobs are skipped.
     GH_ENTERPRISE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    NPM_CACHE_FOLDER: ~/.cache/npm    
+    NPM_CACHE_FOLDER: C:\Users\runneradmin\AppData\npm-cache
     CYPRESS_CACHE_FOLDER: C:\Users\runneradmin\AppData\Local\Cypress\Cache
 
 
@@ -44,7 +44,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            /AppData/npm-cache
+            C:\Users\runneradmin\AppData\npm-cache
             C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: ${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
