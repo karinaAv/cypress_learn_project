@@ -37,11 +37,14 @@ jobs:
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - run: |
-          npm ci
-          npx cypress cache prune
-          npx cypress cache list --size
-          npx cypress run --browser chrome
+      - name: Cypress run
+        uses: cypress-io/github-action@v6.6.1
+        with: 
+          command: |
+            npm ci
+            npx cypress cache prune
+            npx cypress cache list --size
+            npx cypress run --browser chrome
         
                   
         env: 
