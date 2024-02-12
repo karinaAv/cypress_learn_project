@@ -14,7 +14,7 @@ env:
 
 jobs:
   cypress-run:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     strategy:
         # when one test fails, DO NOT cancel the other
         # containers, because this will kill Cypress processes
@@ -32,16 +32,15 @@ jobs:
           node-version: 18
       
       - name: Checkout
-        uses: actions/checkout@v4
-           
+        uses: actions/checkout@v4           
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6.6.1
-        with: 
+        with:
+          install-command: npm ci 
           command: |
-            npm ci
             npx cypress cache prune
             npx cypress cache list --size
             npx cypress run --browser chrome
