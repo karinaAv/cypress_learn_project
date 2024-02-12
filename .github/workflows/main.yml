@@ -8,9 +8,6 @@ env:
     # the projectId is taken from cypress.json (v9) or cypress.config.js (v10 and later).
     # If the Actions secret EXAMPLE_RECORDING_KEY is not defined then recording jobs are skipped.
     GH_ENTERPRISE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    NPM_CACHE_FOLDER: C:\Users\runneradmin\AppData\npm-cache
-    CYPRESS_CACHE_FOLDER: C:\Users\runneradmin\AppData\Local\Cypress\Cache\13.6.3\Cypress
-
 
 jobs:
   cypress-run:
@@ -39,11 +36,11 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6.6.1
         with:
-          install-command: npm.cmd ci 
+          install-command: npm ci 
           command: |
-            npx.cmd cypress cache prune
-            npx.cmd cypress cache list --size
-            npx.cmd cypress run --browser chrome                 
+            npx cypress cache prune
+            npx cypress cache list --size
+            npx  cypress run --browser chrome                 
         env: 
             # Get the short ref name of the branch that triggered the workflow run
             COMMIT_INFO_BRANCH: ${{ github.ref_name }}
