@@ -52,4 +52,3 @@ jobs:
           context: "Test report"
           state: "success"
           sha: ${{ github.sha }}
-          target_url: cypress_learn_project.github.io/github-allure-history/${{ github.run_number }}
