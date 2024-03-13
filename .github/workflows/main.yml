@@ -29,6 +29,8 @@ jobs:
       - name: Cypress run
         run: |
           npm ci
+          npx cypress cache path
+          npx cypress install
           npx cypress cache list
           npx cypress cache prune
           npx cypress verify
