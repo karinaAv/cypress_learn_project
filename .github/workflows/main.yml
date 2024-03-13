@@ -38,6 +38,8 @@ jobs:
         run: |
           echo '=== Disk information ==='
           df -H
+          pwd
+          tree -d
 
       - name: Allure - Setup Java
         uses: actions/setup-java@v3
@@ -62,7 +64,7 @@ jobs:
           ALLURE_REPORT_URL: allure-report/index.html
         run: |
           echo "Generating combined report"
-          npx allure generate -o $ALLURE_REPORT_DIR $ALLURE_RESULTS_DIR
+          npx allure generate ./output/allure-raw -o ./output/allure-report --clean
 
           echo "report_url=$ALLURE_REPORT_URL" >> $GITHUB_OUTPUT
 

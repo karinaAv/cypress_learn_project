@@ -4,5 +4,6 @@
 /allure-results
 /allure-report
 /cypress/videos
+/output
 
 /cypress/screenshots
