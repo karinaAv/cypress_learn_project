@@ -50,6 +50,9 @@ jobs:
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
 
+      - name: Generate report
+        run: |
+          allure generate
       - name: Post the link to the report
         if: always()
         uses: Sibz/github-status-action@v1.1.6
