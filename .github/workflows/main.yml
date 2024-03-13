@@ -24,6 +24,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
 
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 17
+
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
@@ -52,3 +58,4 @@ jobs:
           context: "Test report"
           state: "success"
           sha: ${{ github.sha }}
+          target_url: karinaAv.github.io/cypress_learn_project/github-allure-history/${{ github.run_number }}
