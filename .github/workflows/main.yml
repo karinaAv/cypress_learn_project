@@ -76,5 +76,5 @@ jobs:
           authToken: ${{ env.GH_ENTERPRISE_TOKEN }}
           context: "Test report"
           state: "success"
-          sha: ${{ github.event.pull_request.head.sha || github.sha}}
-          target_url: simple-elf.github.io/github-allure-history/${{ github.run_number }}
+          sha: ${{ github.sha }}
+          target_url: https://karinaAv.github.io/cypress_learn_project/github-allure-history/${{ github.run_number }}
