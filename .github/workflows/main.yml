@@ -30,16 +30,6 @@ jobs:
           distribution: zulu
           java-version: 17
 
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
-        run: |
-          npm ci
-          npx cypress cache path
-          npx cypress install
-          npx cypress cache list
-          npx cypress cache prune
-          npx cypress verify
       - name: Cypress tests run with actions
         uses: cypress-io/github-action@v6.6.1
         with:
@@ -52,7 +42,8 @@ jobs:
 
       - name: Generate report
         run: |
-          allure generate
+          npx allure generate
+
       - name: Post the link to the report
         if: always()
         uses: Sibz/github-status-action@v1.1.6
