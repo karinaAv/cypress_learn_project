@@ -2,6 +2,7 @@
 /cypress/downloads
 /mochawesome-report
 /allure-results
+/allure-report
 /cypress/videos
 
 /cypress/screenshots

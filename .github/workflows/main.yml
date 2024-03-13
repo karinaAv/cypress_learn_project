@@ -43,3 +43,6 @@ jobs:
           COMMIT_INFO_BRANCH: ${{ github.ref_name }}
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
+      - name: Generate Allure
+        run: |
+          allure generate
