@@ -42,14 +42,6 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Allure - Setup Allure CLI
-        env:
-          ALLURE_VERSION: 2.25.0
-        run: |
-          wget -q "https://github.com/allure-framework/allure2/releases/download/$ALLURE_VERSION/allure-$ALLURE_VERSION.zip"
-          unzip -q "allure-2.25.0.zip"
-          echo "$PWD/allure-$ALLURE_VERSION/bin" >> $GITHUB_PATH
-
       - name: Generate report
         id: generate-report
         env:
@@ -59,15 +51,9 @@ jobs:
           ALLURE_REPORT_URL: allure-report/index.html
         run: |
           echo "Generating combined report"
-          npx allure generate ./output/allure-raw -o ./output/allure-report --clean
+          npx allure generate ./allure-results -o ./allure-report --clean
 
           echo "report_url=$ALLURE_REPORT_URL" >> $GITHUB_OUTPUT
-
-      - name: Generate summary for the workflow
-        run: |
-          echo "### Summary" >> $GITHUB_STEP_SUMMARY
-
-          echo "Report URL: ${{ steps.generate-report.outputs.report_url }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Free disk space - After report generation
         if: always()
