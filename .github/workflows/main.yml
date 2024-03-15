@@ -35,7 +35,6 @@ jobs:
         run: |
           echo '=== Disk information ==='
           df -H
-          tree -d
 
       - name: Allure - Setup Java
         if: always()
@@ -44,19 +43,29 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Generate report
-        id: generate-report
+      - name: Load test report history
+        uses: actions/checkout@v3
         if: always()
-        env:
-          ALLURE_NO_ANALYTICS: 1
-          ALLURE_RESULTS_DIR: allure-results
-          ALLURE_REPORT_DIR: allure-report
-          ALLURE_REPORT_URL: allure-report/index.html
-        run: |
-          echo "Generating combined report"
-          npx allure generate ./allure-results -o ./allure-report --clean
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
 
-          echo "report_url=$ALLURE_REPORT_URL" >> $GITHUB_OUTPUT
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: build/allure-results
+
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
 
       - name: Free disk space - After report generation
         if: always()
