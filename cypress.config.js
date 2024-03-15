@@ -1,8 +1,10 @@
 const { defineConfig } = require("cypress");
-const {
-  configureAllureAdapterPlugins,
-} = require("@mmisty/cypress-allure-adapter/plugins");
-const allureWriter = require("@shelex/cypress-allure-plugin/writer");
+// const {
+//   configureAllureAdapterPlugins,
+// } = require("@mmisty/cypress-allure-adapter/plugins");
+// const allureWriter = require("@shelex/cypress-allure-plugin/writer");
+const { allureCypress } = require("allure-cypress/reporter");
+
 const cypressSplit = require("cypress-split");
 
 module.exports = defineConfig({
@@ -18,10 +20,10 @@ module.exports = defineConfig({
       // modify config values
       config.defaultCommandTimeout = 10000;
       config.baseUrl = "https://example.cypress.io";
-      allureWriter(on, config);
-
+      // allureWriter(on, config);
+      allureCypress(on);
       // modify env var value
-      config.env.ENVIRONMENT = "base";
+      // config.env.ENVIRONMENT = "base";
 
       // IMPORTANT return the updated config object
       return config;
