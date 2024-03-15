@@ -31,12 +31,14 @@ jobs:
           COMMIT_INFO_BRANCH: ${{ github.ref_name }}
 
       - name: Log runner details
+        if: always()
         run: |
           echo '=== Disk information ==='
           df -H
           tree -d
 
       - name: Allure - Setup Java
+        if: always()
         uses: actions/setup-java@v3
         with:
           distribution: temurin
@@ -44,6 +46,7 @@ jobs:
 
       - name: Generate report
         id: generate-report
+        if: always()
         env:
           ALLURE_NO_ANALYTICS: 1
           ALLURE_RESULTS_DIR: allure-results
