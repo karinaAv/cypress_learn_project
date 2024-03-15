@@ -8,6 +8,7 @@ const cypressSplit = require("cypress-split");
 module.exports = defineConfig({
   env: {
     allureReuseAfterSpec: true,
+    allureResultsPath: "allure-results",
   },
   e2e: {
     setupNodeEvents(on, config) {

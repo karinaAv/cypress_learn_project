@@ -29,12 +29,7 @@ jobs:
         env:
           # Get the short ref name of the branch that triggered the workflow run
           COMMIT_INFO_BRANCH: ${{ github.ref_name }}
-
-      - name: Log runner details
-        if: always()
-        run: |
-          echo '=== Disk information ==='
-          df -H
+          allure: true
 
       - name: Allure - Setup Java
         if: always()
