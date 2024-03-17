@@ -22,6 +22,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
 
+        # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        run: |
+          npm ci
+          npx cypress cache path
+          npx cypress install
+          npx cypress cache list
+          npx cypress cache prune
+          npx cypress verify
+
       - name: Cypress tests run with actions
         uses: cypress-io/github-action@v6.6.1
         with:
