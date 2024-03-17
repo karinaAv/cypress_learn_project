@@ -27,7 +27,7 @@ jobs:
 
       - name: Sleep for 40 seconds for first job
         if: ${{ strategy.job-index == 1}}
-        run: sleep 40s
+        run: sleep 60s
         shell: bash
 
       # Install NPM dependencies, cache them correctly
