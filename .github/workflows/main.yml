@@ -45,7 +45,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: merged-reports-as-blob # name of the file you want to have once its uploaded
+          name: merged-reports-as-blob-${{ strategy.job-index }} # name of the file you want to have once its uploaded
           path: allure-results # path where the reports are, from where to take the files.
           retention-days: 14
 
@@ -76,14 +76,14 @@ jobs:
       - name: Download blob reports from GitHub Actions Artifacts
         uses: actions/download-artifact@v3
         with:
-          name: merged-reports-as-blob # name of the file stored as artifact (as uploaded at the previous job)
-          path:
-            downloaded-merged-reports-as-blob # name of the folder where the download will be saved
+          name: merged-reports-as-blob-0 # name of the file stored as artifact (as uploaded at the previous job)
+          path: downloaded-merged-reports-as-blob # name of the folder where the download will be saved
 
-
-            # Playwright will generate a report and store it inside a folder called '/playwright-report'
-      - name: Merge the blobs into one single HTML Report
-        run: npx allure generate ./downloaded-merged-reports-as-blob
+      - name: Download blob reports from GitHub Actions Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: merged-reports-as-blob-1 # name of the file stored as artifact (as uploaded at the previous job)
+          path: downloaded-merged-reports-as-blob # name of the folder where the download will be saved
 
       - name: /[OPTIONAL] Upload full html report to artifacts for history
         if: always()
@@ -93,13 +93,23 @@ jobs:
           path: cypress-report # path where the reports are, from where to take the files
           retention-days: 14
 
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.9
+        if: ${{ always() }}
+        with:
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: downloaded-merged-reports-as-blob
+          allure_report: allure-report
+          keep_reports: 10
       - name: Push the new files to github pages
         # This will create a separate branch called gh-pages where it will store only reports. And from where it will push all future changes
         # to github pages. Having a separate branch will keep the reports and changes commits separate to your main/master
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./cypress-report # from what folder to take files. It takes only contents
+          publish_branch: gh-pages
+          publish_dir: allure-history
           destination_dir: ${{ steps.timestampid.outputs.timestamp }} # a sub-directory where to publish to avoid overwriting other reports
 
       - name: Write URL in summary
