@@ -18,6 +18,8 @@ jobs:
       # leaving Cypress Cloud hanging ...
       # https://github.com/cypress-io/github-action/issues/48
       fail-fast: false
+      matrix:
+        containers: [1, 2]
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
@@ -41,6 +43,8 @@ jobs:
           # Get the short ref name of the branch that triggered the workflow run
           COMMIT_INFO_BRANCH: ${{ github.ref_name }}
           allure: true
+          SPLIT: ${{ strategy.job-total }}
+          SPLIT_INDEX: ${{ strategy.job-index }}
 
       - name: Allure - Setup Java
         if: always()
