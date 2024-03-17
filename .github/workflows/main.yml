@@ -53,7 +53,7 @@ jobs:
 
   gererate_report:
     runs-on: ubuntu-latest
-    if: always()
+    if: ${{ always() }}
     needs: [cypress-run, cypress-run]
     steps:
       - name: Log runner details
@@ -79,10 +79,10 @@ jobs:
         uses: simple-elf/allure-report-action@master
         if: always()
         with:
-          allure_results: allure-results-${{ strategy.job-index}}
+          allure_results: allure-results
           gh_pages: gh-pages
-          allure_report: allure-results-${{ env.JOB_INDEX }}
-          allure_history: allure-history-${{ env.JOB_INDEX }}
+          allure_report: allure-results
+          allure_history: allure-history
           keep_reports: 10
 
       - name: Publish test report
@@ -91,4 +91,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-history-${{ env.JOB_INDEX }}
+          publish_dir: allure-history
