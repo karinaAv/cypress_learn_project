@@ -46,50 +46,66 @@ jobs:
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
 
-      - name: Allure - Setup Java
-        uses: actions/setup-java@v4.2.1
-        if: ${{ always() }}
+      - name: Upload blob report to GitHub Actions Artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
         with:
-          distribution: temurin
-          java-version: 21
+          name: merged-reports-as-blob # name of the file you want to have once its uploaded
+          path: blob-report # path where the reports are, from where to take the files.
+          retention-days: 14
 
-      - name: Load test report history
-        uses: actions/checkout@v4.1.1
-        if: ${{ always() }}
-        continue-on-error: true
+  merge-reports-and-upload:
+    # Merge reports after playwright tests, even if some shards have failed
+    if: always()
+    needs: [cypress-run]
+    runs-on: ubuntu-latest
+
+    outputs:
+      timestamp: ${{ steps.timestampid.outputs.timestamp }}
+
+    steps:
+      # We want a unique identifier to be used when we create subdirectories for our github pages with reports
+      - name: Set a timestamp
+        id: timestampid
+        # this will store current time with UTC in outputs.timestamp (eg of value: 20231028_233147Z)
+        run: echo "timestamp=$(date --utc +%Y%m%d_%H%M%SZ)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          ref: gh-pages
-          path: gh-pages
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Build test report
-        uses: simple-elf/allure-report-action@v1.9
-        if: ${{ always() }}
+        # we now download the reports uploaded previously to merge them and create one single html report
+      - name: Download blob reports from GitHub Actions Artifacts
+        uses: actions/download-artifact@v3
         with:
-          gh_pages: gh-pages
-          allure_history: allure-history
-          allure_results: allure-results
-          allure_report: allure-report
-          keep_reports: 20
+          name: merged-reports-as-blob # name of the file stored as artifact (as uploaded at the previous job)
+          path:
+            downloaded-merged-reports-as-blob # name of the folder where the download will be saved
 
-      - name: Publish test report
-        uses: peaceiris/actions-gh-pages@v3.9.3
-        if: ${{ always() }}
+
+            # Playwright will generate a report and store it inside a folder called '/playwright-report'
+      - name: Merge the blobs into one single HTML Report
+        run: npx allure generate ./downloaded-merged-reports-as-blob
+
+      - name: /[OPTIONAL] Upload full html report to artifacts for history
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-report-${{ steps.timestampid.outputs.timestamp }} # name of the file you want to have once its uploaded
+          path: cypress-report # path where the reports are, from where to take the files
+          retention-days: 14
+
+      - name: Push the new files to github pages
+        # This will create a separate branch called gh-pages where it will store only reports. And from where it will push all future changes
+        # to github pages. Having a separate branch will keep the reports and changes commits separate to your main/master
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: ./cypress-report # from what folder to take files. It takes only contents
+          destination_dir: ${{ steps.timestampid.outputs.timestamp }} # a sub-directory where to publish to avoid overwriting other reports
 
-      - name: Post the link to the report
-        if: ${{ strategy.job-index == 1}}
-        uses: Sibz/github-status-action@v1.1.6
-        with:
-          authToken: ${{secrets.GITHUB_TOKEN}}
-          context: "Allure test report"
-          state: "success"
-          sha: ${{ github.sha }}
-          target_url: https://karinaav.github.io/cypress_learn_project/${{ github.run_number }}
-
-      - name: Free disk space - After report generation
-        if: always()
-        run: |
-          df -H
+      - name: Write URL in summary
+        run: echo "### Test results (link available after 20 secs) - https://${{ github.repository_owner }}.github.io/cypress_learn_project/${{ steps.timestampid.outputs.timestamp }}/" >> $GITHUB_STEP_SUMMARY
