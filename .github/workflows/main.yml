@@ -79,7 +79,7 @@ jobs:
       - name: Build test report
         if: always()
         run: |
-          npx allure generate
+          allure generate
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
