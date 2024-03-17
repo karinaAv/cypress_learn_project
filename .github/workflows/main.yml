@@ -77,14 +77,9 @@ jobs:
           path: gh-pages
 
       - name: Build test report
-        uses: simple-elf/allure-report-action@v1.9
         if: always()
-        with:
-          gh_pages: gh-pages
-          allure_history: allure-history
-          allure_results: allure-results
-          allure_report: allure-report
-          keep_reports: 10
+        run: |
+          npx allure generate
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
@@ -96,7 +91,7 @@ jobs:
 
       - name: Post the link to the report
         if: always()
-        uses: Sibz/github-status-action@v1
+        uses: Sibz/github-status-action@v1.1.6
         with:
           authToken: ${{secrets.GITHUB_TOKEN}}
           context: "Allure test report"
