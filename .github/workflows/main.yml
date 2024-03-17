@@ -55,3 +55,43 @@ jobs:
         if: always()
         run: |
           df -H
+
+  gererate_report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log runner details
+        run: |
+          echo '=== Disk information ==='
+          df -H
+      - name: Allure - Setup Java
+        if: always()
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Load test report history
+        uses: actions/checkout@v3
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Test marketplace action
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: allure-results-${{ env.JOB_INDEX }}
+          gh_pages: gh-pages
+          allure_report: allure-results-${{ env.JOB_INDEX }}
+          allure_history: allure-history-${{ env.JOB_INDEX }}
+          keep_reports: 10
+
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history${{ env.JOB_INDEX }}
