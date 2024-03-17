@@ -47,7 +47,7 @@ jobs:
           SPLIT_INDEX: ${{ strategy.job-index }}
 
       - name: Generate Report
-        uses: ./.github/workflows/generate_allure.yml
+        uses: ./workflows/generate_allure.yml
         with:
           job_index: ${{ strategy.job-index }}
 
