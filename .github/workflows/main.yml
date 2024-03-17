@@ -80,8 +80,8 @@ jobs:
           path: gh-pages
 
       - name: Build test report
-        if: always()
         run: |
+          npm ci
           npx allure generate
 
       - name: Publish test report
