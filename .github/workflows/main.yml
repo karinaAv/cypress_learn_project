@@ -54,12 +54,13 @@ jobs:
   gererate_report:
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    needs: [cypress-run, cypress-run]
+    needs: [cypress-run]
     steps:
       - name: Log runner details
         run: |
           echo '=== Disk information ==='
           df -H
+
       - name: Allure - Setup Java
         if: always()
         uses: actions/setup-java@v3
@@ -75,14 +76,14 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Test marketplace action
-        uses: simple-elf/allure-report-action@master
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.9
         if: always()
         with:
-          allure_results: allure-results
           gh_pages: gh-pages
-          allure_report: allure-results
           allure_history: allure-history
+          allure_results: allure-results
+          allure_report: allure-report
           keep_reports: 10
 
       - name: Publish test report
@@ -92,3 +93,13 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
+
+      - name: Post the link to the report
+        if: always()
+        uses: Sibz/github-status-action@v1
+        with:
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          context: "Allure test report"
+          state: "success"
+          sha: ${{ github.sha }}
+          target_url: https://karinaav.github.io/cypress_learn_project/${{ github.run_number }}
