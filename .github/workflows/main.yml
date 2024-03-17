@@ -48,12 +48,14 @@ jobs:
 
       - name: Allure - Setup Java
         uses: actions/setup-java@v4.2.1
+        if: ${{ always() }}
         with:
           distribution: temurin
           java-version: 21
 
       - name: Load test report history
         uses: actions/checkout@v4.1.1
+        if: ${{ always() }}
         continue-on-error: true
         with:
           ref: gh-pages
@@ -61,6 +63,7 @@ jobs:
 
       - name: Build test report
         uses: simple-elf/allure-report-action@v1.9
+        if: ${{ always() }}
         with:
           gh_pages: gh-pages
           allure_history: allure-history
@@ -70,6 +73,7 @@ jobs:
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3.9.3
+        if: ${{ always() }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
