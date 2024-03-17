@@ -46,11 +46,6 @@ jobs:
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
 
-      - name: Generate Report
-        uses: ./workflows/generate_allure.yml
-        with:
-          job_index: ${{ strategy.job-index }}
-
       - name: Free disk space - After report generation
         if: always()
         run: |
@@ -58,6 +53,8 @@ jobs:
 
   gererate_report:
     runs-on: ubuntu-latest
+    if: always()
+    needs: [cypress-run, cypress-run]
     steps:
       - name: Log runner details
         run: |
@@ -82,7 +79,7 @@ jobs:
         uses: simple-elf/allure-report-action@master
         if: always()
         with:
-          allure_results: allure-results-${{ env.JOB_INDEX }}
+          allure_results: allure-results-${{ strategy.job-index}}
           gh_pages: gh-pages
           allure_report: allure-results-${{ env.JOB_INDEX }}
           allure_history: allure-history-${{ env.JOB_INDEX }}
@@ -94,4 +91,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-history${{ env.JOB_INDEX }}
+          publish_dir: allure-history-${{ env.JOB_INDEX }}
