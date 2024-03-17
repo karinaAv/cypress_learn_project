@@ -10,7 +10,7 @@ const cypressSplit = require("cypress-split");
 module.exports = defineConfig({
   env: {
     allureReuseAfterSpec: true,
-    allureResultsPath: "allure-results",
+    allureAttachRequests: true,
   },
   e2e: {
     setupNodeEvents(on, config) {
@@ -21,7 +21,9 @@ module.exports = defineConfig({
       config.defaultCommandTimeout = 10000;
       config.baseUrl = "https://example.cypress.io";
       // allureWriter(on, config);
-      allureCypress(on);
+      allureCypress(on, {
+        resultsDir: "./allure-results",
+      });
       // modify env var value
       // config.env.ENVIRONMENT = "base";
 
