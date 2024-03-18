@@ -1,6 +1,6 @@
 name: cypress_learn_project
 
-on: push
+on: workflow_dispatch
 
 env:
   # Set up the Cypress Cloud project ID and record key as environment variables
@@ -92,24 +92,3 @@ jobs:
           name: cypress-report-${{ steps.timestampid.outputs.timestamp }} # name of the file you want to have once its uploaded
           path: downloaded-merged-reports-as-blob # path where the reports are, from where to take the files
           retention-days: 14
-
-      - name: Build test report
-        uses: simple-elf/allure-report-action@v1.9
-        if: ${{ always() }}
-        with:
-          gh_pages: gh-pages
-          allure_history: allure-history
-          allure_results: downloaded-merged-reports-as-blob
-          allure_report: allure-report
-          keep_reports: 10
-
-      - name: Publish test report
-        uses: peaceiris/actions-gh-pages@v3.9.3
-        if: ${{ always() }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
-
-      - name: Write URL in summary
-        run: echo "### Test results (link available after 20 secs) - https://${{ github.repository_owner }}.github.io/cypress_learn_project/${{ github.run_number }}/" >> $GITHUB_STEP_SUMMARY
