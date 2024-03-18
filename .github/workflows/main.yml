@@ -92,3 +92,8 @@ jobs:
           name: cypress-report-${{ steps.timestampid.outputs.timestamp }} # name of the file you want to have once its uploaded
           path: downloaded-merged-reports-as-blob # path where the reports are, from where to take the files
           retention-days: 14
+
+      - uses: geekyeggo/delete-artifact@v4
+        with:
+          name: |
+            amerged-reports-as-blob*
