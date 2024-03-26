@@ -20,8 +20,8 @@ import "@shelex/cypress-allure-plugin";
 // require('./commands')
 
 // make folder name a parentSuite:
-Cypress.Allure.reporter
-  .getInterface()
-  .defineSuiteLabels((titlePath, fileInfo) => {
-    return [Cypress.browser.name, ...titlePath];
-  });
+// Cypress.Allure.reporter
+//   .getInterface()
+//   .defineSuiteLabels((titlePath, fileInfo) => {
+//     return [Cypress.browser.name, ...titlePath];
+//   });
