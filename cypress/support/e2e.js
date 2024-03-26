@@ -15,7 +15,14 @@
 
 // Import commands.js using ES2015 syntax:
 import "./commands";
-// import "@shelex/cypress-allure-plugin";
-import "allure-cypress/commands";
+import "@shelex/cypress-allure-plugin";
+// import "allure-cypress/commands";
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+// make folder name a parentSuite:
+Cypress.Allure.reporter
+  .getInterface()
+  .defineSuiteLabels((titlePath, fileInfo) => {
+    return [Cypress.browser.name, ...titlePath];
+  });
