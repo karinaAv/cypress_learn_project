@@ -40,6 +40,7 @@ jobs:
         with:
           browser: chrome
           env: allure=true
+          config: video=true
         env:
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
@@ -86,6 +87,7 @@ jobs:
         with:
           browser: firefox
           env: allure=true
+          config: video=fasle
         env:
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
