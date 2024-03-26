@@ -55,7 +55,7 @@ jobs:
   cypress-run-1:
     runs-on: ubuntu-latest
     container:
-      image: cypress/browsers:latest
+      image: cypress/browsers:node-20.10.0-chrome-121.0.6167.85-1-ff-118.0.2-edge-118.0.2088.46-1
       options: --user 1001
     strategy:
       # when one test fails, DO NOT cancel the other
@@ -73,6 +73,9 @@ jobs:
 
           # Install NPM dependencies, cache them correctly
           # and run all Cypress tests
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.10.0
       - name: Cypress run
         run: |
           npm ci
