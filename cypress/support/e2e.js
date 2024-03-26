@@ -24,5 +24,5 @@ Cypress.Allure.reporter
   .getInterface()
   .defineSuiteLabels((titlePath, fileInfo) => {
     const [parentSuite, suite, ...subSuites] = titlePath;
-    return [fileInfo.folder, parentSuite, ...subSuites];
+    return [Cypress.browser.name, parentSuite, ...subSuites];
   });

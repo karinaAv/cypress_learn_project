@@ -16,7 +16,6 @@ module.exports = defineConfig({
     },
     env: {
       allureReuseAfterSpec: true,
-      allureResultsPath: "allure-results",
       allureAddVideoOnPass: true,
       allure: true,
     },
