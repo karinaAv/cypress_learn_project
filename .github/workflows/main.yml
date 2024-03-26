@@ -92,7 +92,7 @@ jobs:
   merge-reports-and-upload:
     # Merge reports after playwright tests, even if some shards have failed
     if: always()
-    needs: [cypress-run]
+    needs: [cypress-run, cypress-run-1]
     runs-on: ubuntu-latest
 
     outputs:
